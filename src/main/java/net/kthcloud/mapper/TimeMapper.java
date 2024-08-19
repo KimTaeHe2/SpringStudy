@@ -6,7 +6,7 @@ import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
 public interface TimeMapper {
-	// root-context.xml에서 적용한 mtbatis를 스캔당한다
+	// root-context.xml에서 적용한 mybatis를 스캔당한다
 	// <mybatis-spring:scan base-package="net.kthcloud.mapper"/> 패키지를 통해서 mybatis가 검색한다.
 	
 	// 추상메서드가 있다. (추상메서드는 실행블럭이 없이 ; 으로 끝남.)
