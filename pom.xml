@@ -1,12 +1,11 @@
-<?xml version="1.0" encoding="UTF-8"?><!--  -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/maven-v4_0_0.xsd">
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>net.kthcloud</groupId>
+	<groupId>org.zerock</groupId>
 	<artifactId>controller</artifactId>
-	<name>OracleJDBC</name>
+	<name>Board</name>
 	<packaging>war</packaging>
-	<version>1.0.0-BUILD-SNAPSHOT</version> <!-- war 파일 이름 -->
+	<version>1.0.0-BUILD-SNAPSHOT</version>
 	<properties>
 		<java-version>11</java-version>
 		<org.springframework-version>5.0.7.RELEASE</org.springframework-version>
@@ -17,14 +16,14 @@
 		<!-- Spring -->
 		<dependency>
 			<groupId>org.springframework</groupId>
-			<artifactId>spring-context</artifactId> <!-- Spring 메모리 영역 -->
-			<version>${org.springframework-version}</version> <!-- 표현식 (위 properties를 봄) -->
+			<artifactId>spring-context</artifactId>
+			<version>${org.springframework-version}</version>
 			<exclusions>
 				<!-- Exclude Commons Logging in favor of SLF4j -->
 				<exclusion>
-					<groupId>commons-logging</groupId> <!--  -->
+					<groupId>commons-logging</groupId>
 					<artifactId>commons-logging</artifactId>
-				 </exclusion>
+				</exclusion>
 			</exclusions>
 		</dependency>
 		<dependency>
@@ -32,39 +31,41 @@
 			<artifactId>spring-webmvc</artifactId>
 			<version>${org.springframework-version}</version>
 		</dependency>
-		
+
 		<dependency>
+			<!--test 코드 활성화 적용 p54 -->
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-test</artifactId>
 			<version>${org.springframework-version}</version>
 		</dependency>
-		<!-- test폴더 필수 코드 -> @Test -> JUnit 메서드별로 테스트 
-		@RunWith(SpringJUnit4ClassRunner.class) // 메서드별 테스트용 JUnit4
-		@ContextConfiguration("file:src/main/webapp/WEB-INF/spring/root-context.xml") // 참고파일
-		@Log4j2
-		 -->
-		
-		<dependency> <!-- dto 객체 자동화 lombok -->
-			 <groupId>org.projectlombok</groupId> 
-			 <artifactId>lombok</artifactId> 
-			 <version>1.18.24</version> 
-			 <scope>provided</scope> 
-		 </dependency>
-		 <!-- JDBC 세팅 https://mvnrepository.com/artifact/com.oracle.database.jdbc/ojdbc8 -->
-		 <!-- 1. 드라이버 2. 커넥션풀 3. mybatis 4. jdbclog4j2 -->
+		<!-- test폴더 필수 코드 -> @Test -> JUnit 메서드별로 테스트
+		@RunWith(SpringJUnit4ClassRunner.class)  // 메서드별 테스트용 JUnit4
+		@ContextConfiguration("file:src/main/webapp/WEB-INF/spring/root-context.xml") // 참고할 파일
+		@Log4j2 
+		-->
 		<dependency>
-		    <groupId>com.oracle.database.jdbc</groupId>
-		    <artifactId>ojdbc8</artifactId>
-		    <version>23.2.0.0</version>
+			<!-- dto 객체 자동화 lombok 적용 p54 -->
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<version>1.18.24</version>
+			<scope>provided</scope>
 		</dependency>
-		
+
+		<!-- jdbc 셋팅 1. 드라이버 2. 커넥션풀 3. mybatis 4. jdbclog4j2 -->
+		<!-- https://mvnrepository.com/artifact/com.oracle.database.jdbc/ojdbc8 -->
+		<dependency>
+			<groupId>com.oracle.database.jdbc</groupId>
+			<artifactId>ojdbc8</artifactId>
+			<version>23.2.0.0</version>
+		</dependency>
+
 		<!-- 커넥션풀용 jdbc https://mvnrepository.com/artifact/hikari-cp/hikari-cp -->
 		<dependency>
-		    <groupId>com.zaxxer</groupId>
-		    <artifactId>HikariCP</artifactId>
-		    <version>2.7.9</version>
+			<groupId>com.zaxxer</groupId>
+			<artifactId>HikariCP</artifactId>
+			<version>2.7.9</version>
 		</dependency>
-		
+
 		<!-- root-context.xml 에 삽입
 		 
 		<bean id="hikariConfig" class="com.zaxxer.hikari.HikariConfig">
@@ -83,33 +84,33 @@
 		
 		-->
 
-		<!-- 마이바티스 -> pstms 대체용 : jdbc 연동용 https://mvnrepository.com/artifact/org.mybatis/mybatis -->
-		<!-- 마이바티스 메핑용 코드 작성 -->
+		<!-- 마이바티스 -> pstmt의 대체용  : jdbc 연동용 https://mvnrepository.com/artifact/org.mybatis/mybatis -->
+		<!-- 마이바티스 메핑용 코드 -->
 		<dependency>
-		    <groupId>org.mybatis</groupId>
-		    <artifactId>mybatis</artifactId>
-		    <version>3.4.6</version>
+			<groupId>org.mybatis</groupId>
+			<artifactId>mybatis</artifactId>
+			<version>3.4.6</version>
 		</dependency>
-		
+
 		<!-- 마이바티스 : 스프링 연결용 https://mvnrepository.com/artifact/org.mybatis/mybatis-spring -->
 		<dependency>
-		    <groupId>org.mybatis</groupId>
-		    <artifactId>mybatis-spring</artifactId>
-		    <version>1.3.3</version>
+			<groupId>org.mybatis</groupId>
+			<artifactId>mybatis-spring</artifactId>
+			<version>1.3.3</version>
 		</dependency>
 
 		<!-- 스프링 트랜젝션 처리용 https://mvnrepository.com/artifact/org.springframework/spring-tx -->
 		<dependency>
-		    <groupId>org.springframework</groupId>
-		    <artifactId>spring-tx</artifactId>
-		    <version>${org.springframework-version}</version>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-tx</artifactId>
+			<version>${org.springframework-version}</version>
 		</dependency>
 
 		<!-- 스프링에 jdbc 연결용 https://mvnrepository.com/artifact/org.springframework/spring-jdbc -->
 		<dependency>
-		    <groupId>org.springframework</groupId>
-		    <artifactId>spring-jdbc</artifactId>
-		    <version>${org.springframework-version}</version>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-jdbc</artifactId>
+			<version>${org.springframework-version}</version>
 		</dependency>
 
 		<!-- root-context.xml 코드 변경  
@@ -118,22 +119,29 @@
 		</bean>
 	
 		<mybatis-spring:scan base-package="org.zerock.mapper"/>
-		 org.zerock.mapper -> 매핑용 인터페이스 위치
-		sql처리를 mapper에서 찾는다. -> 인터페이스 + xml로 sql 처리함
+		org.zerock.mapper -> 매핑용 인터페이스 위치  
+		sql처리를 mapper에서 찾는다.  -> 인터페이스 + xml로 sql 처리함.
 				
 		-->
-		<!-- 로그출력을 표형식으로 구현 https://mvnrepository.com/artifact/org.bgee.log4jdbc-log4j2/log4jdbc-log4j2-jdbc4.1 -->
+		<!-- 로그출력을 표형식으로 구현 https://mvnrepository.com/artifact/org.bgee.jdbc-log4j2/log4jdbc-log4j2-jdbc4.1 -->
 		<dependency>
-		    <groupId>org.bgee.log4jdbc-log4j2</groupId>
-		    <artifactId>log4jdbc-log4j2-jdbc4</artifactId>
-		    <version>1.16</version>
+			<groupId>org.bgee.log4jdbc-log4j2</groupId>
+			<artifactId>log4jdbc-log4j2-jdbc4</artifactId>
+			<version>1.16</version>
 		</dependency>
 		<!-- root-context.xml 기존코드 변경
 		<property name="driverClassName" value="net.sf.log4jdbc.sql.jdbcapi.DriverSpy"></property> 
-		<property name="jdbcUrl" value="jdbc:log4jdbc:oracle:thin:@localhost:1521:XE"></property>
-		 -->
-		
-		<!-- Logging : log4j는 취약점 발견으로 사용 안함 하단 log4j2 추가함
+		<property name="jdbcUrl" value="jdbc:log4jdbc:oracle:thin:@localhost:1521:XE"></property> 
+		-->
+
+		<!-- AspectJ -->
+		<dependency>
+			<groupId>org.aspectj</groupId>
+			<artifactId>aspectjrt</artifactId>
+			<version>${org.aspectj-version}</version>
+		</dependency>
+
+		<!-- Logging
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
@@ -174,102 +182,87 @@
 				</exclusion>
 			</exclusions>
 			<scope>runtime</scope>
-		</dependency>
-		-->
-		
-		
-		<!-- log4j2 활성화 : resources log4j2.xml 변경 https://logging.apache.org/log4j/2.x/maven-artifacts.html -->
-		<dependency> 
-		    <groupId>org.apache.logging.log4j</groupId>
-		    <artifactId>log4j-api</artifactId>
-		    <version>2.18.0</version>
-		  </dependency>
-		  <dependency>
-		    <groupId>org.apache.logging.log4j</groupId>
-		    <artifactId>log4j-core</artifactId>
-		    <version>2.18.0</version>
-		</dependency>
-	    <dependency>
-		    <groupId>org.apache.logging.log4j</groupId>
-		    <artifactId>log4j-slf4j-impl</artifactId>
-		    <version>2.18.0</version>
-  		</dependency>	
-		<!-- AspectJ -->
+		</dependency>  -->
 		<dependency>
-			<groupId>org.aspectj</groupId>
-			<artifactId>aspectjrt</artifactId>
-			<version>${org.aspectj-version}</version>
-		</dependency>	
-		
+			<!-- 보안 이슈로 log4j2로 향상 -->
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-api</artifactId>
+			<version>2.18.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-core</artifactId>
+			<version>2.18.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-slf4j-impl</artifactId>
+			<version>2.18.0</version>
+		</dependency> <!-- 보안 이슈로 log4j2로 향상 -->
+
 		<!-- @Inject -->
-		<dependency> 
-			 <groupId>org.apache.logging.log4j</groupId> 
-			 <artifactId>log4j-api</artifactId> 
-			 <version>2.18.0</version> 
-		 </dependency> 
-		 <dependency> 
-			 <groupId>org.apache.logging.log4j</groupId> 
-			 <artifactId>log4j-core</artifactId> 
-			 <version>2.18.0</version> 
-		 </dependency> 
-		 <dependency> 
-			 <groupId>org.apache.logging.log4j</groupId> 
-			 <artifactId>log4j-slf4j-impl</artifactId> 
-			 <version>2.18.0</version> 
-		 </dependency> 
 		<dependency>
 			<groupId>javax.inject</groupId>
 			<artifactId>javax.inject</artifactId>
 			<version>1</version>
 		</dependency>
-				
-		<!-- Servlet 
+
+		<!-- Servlet
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>servlet-api</artifactId>
 			<version>2.5</version>
 			<scope>provided</scope>
-		</dependency> 3.1.0 버전으로 향상 -->
-		<!-- 3.1.0 버전 https://mvnrepository.com/artifact/javax.servlet/javax.servlet-api -->
+		</dependency> -->
+		
+		<!-- 3.1.0버전으로 향상 https://mvnrepository.com/artifact/javax.servlet/javax.servlet-api -->
 		<dependency>
-		    <groupId>javax.servlet</groupId>
-		    <artifactId>javax.servlet-api</artifactId>
-		    <version>3.1.0</version>
-		    <scope>provided</scope>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+			<version>3.1.0</version>
+			<scope>provided</scope>
 		</dependency>
-
-		<dependency><!-- 프론트를 jsp로 사용 -->
+		
+		
+		<dependency>
 			<groupId>javax.servlet.jsp</groupId>
 			<artifactId>jsp-api</artifactId>
 			<version>2.1</version>
 			<scope>provided</scope>
 		</dependency>
-		<dependency> <!-- jstl.jar 파일 주입 -->
+		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>jstl</artifactId>
 			<version>1.2</version>
 		</dependency>
-	
+
 		<!-- Test -->
-		<dependency> <!-- Test 폴더에서 메서드별로 테스팅이 됨 -->
+		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<version>4.12</version><!-- 기존 4.7버전을 4.12버전으로 향상 -->
+			<version>4.12</version>
 			<scope>test</scope>
 		</dependency>
-		<!-- Jackson-databind = 컨트롤러에서 처리된 결과를 jso 타입으로 프론트에게 보냄--> 
+		
+		<!-- Jackson-databind : 컨트롤러에서 처리된 결과를 json 타입으로 프론트에게 보냄-->
 		<!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind -->
 		<dependency>
-		    <groupId>com.fasterxml.jackson.core</groupId>
-		    <artifactId>jackson-databind</artifactId>
-		    <version>2.9.4</version>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+			<version>2.9.4</version>
 		</dependency>
+		
 		<!-- 파일 업로드용 코드 -->
-       <!-- https://mvnrepository.com/artifact/commons-fileupload/commons-fileupload 
-       
-       servlet-context.xml에 필수로 추가할것
-       
-       <beans:bean id="multipartResolver"class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<!-- https://mvnrepository.com/artifact/commons-fileupload/commons-fileupload -->
+		<dependency>
+			<groupId>commons-fileupload</groupId>
+			<artifactId>commons-fileupload</artifactId>
+			<version>1.3.3</version>
+		</dependency>
+
+		<!-- servlet-context.xml에 필수로 추가할 것 
+		<beans:bean id="multipartResolver"
+		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
 		<beans:property name="defaultEncoding" value="utf-8"></beans:property>
 		
 		<beans:property name="maxUploadSize" value="104857560"></beans:property>
@@ -277,51 +270,46 @@
 		<beans:property name="maxUploadSizePerFile"	value="2097152"></beans:property>
 		<beans:property name="uploadTempDir" value="file:/D:/upload/tmp"></beans:property>
 		<beans:property name="maxInMemorySize" value="10485756"></beans:property>
-	</beans:bean>-->
-		<dependency>
-		    <groupId>commons-fileupload</groupId>
-		    <artifactId>commons-fileupload</artifactId>
-		    <version>1.3.3</version>
-		</dependency>
-
-       
+		</beans:bean>
+		-->
+		
 	</dependencies>
-    <build>
-        <plugins>
-            <plugin>
-                <artifactId>maven-eclipse-plugin</artifactId> <!-- 메이븐 업데이트 프로젝트 -->
-                <version>2.9</version>
-                <configuration>
-                    <additionalProjectnatures>
-                        <projectnature>org.springframework.ide.eclipse.core.springnature</projectnature>
-                    </additionalProjectnatures>
-                    <additionalBuildcommands>
-                        <buildcommand>org.springframework.ide.eclipse.core.springbuilder</buildcommand>
-                    </additionalBuildcommands>
-                    <downloadSources>true</downloadSources>
-                    <downloadJavadocs>true</downloadJavadocs>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.5.1</version> <!-- 기존 2.5.1 버전에서 3.5.1로 버전 향상 -->
-                <configuration>
-                    <source>11</source> <!-- jdk 버전 11로 향상 -->
-                    <target>11</target> <!-- jdk 버전 11로 향상 -->
-                    <compilerArgument>-Xlint:all</compilerArgument>
-                    <showWarnings>true</showWarnings>
-                    <showDeprecation>true</showDeprecation>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>exec-maven-plugin</artifactId>
-                <version>1.2.1</version>
-                <configuration>
-                    <mainClass>org.test.int1.Main</mainClass>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
+	<build>
+		<plugins>
+			<plugin>
+				<artifactId>maven-eclipse-plugin</artifactId>
+				<version>2.9</version>
+				<configuration>
+					<additionalProjectnatures>
+						<projectnature>org.springframework.ide.eclipse.core.springnature</projectnature>
+					</additionalProjectnatures>
+					<additionalBuildcommands>
+						<buildcommand>org.springframework.ide.eclipse.core.springbuilder</buildcommand>
+					</additionalBuildcommands>
+					<downloadSources>true</downloadSources>
+					<downloadJavadocs>true</downloadJavadocs>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.5.1</version>
+				<configuration>
+					<source>11</source>
+					<target>11</target>
+					<compilerArgument>-Xlint:all</compilerArgument>
+					<showWarnings>true</showWarnings>
+					<showDeprecation>true</showDeprecation>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>exec-maven-plugin</artifactId>
+				<version>1.2.1</version>
+				<configuration>
+					<mainClass>org.test.int1.Main</mainClass>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
 </project>
