@@ -35,9 +35,29 @@ alter table tbl_reply add constraint pk_reply primary key (rno);
 alter table tbl_reply add constraint fk_reply_board foreign key (bno) references tbl_board (bno); 
 -- tbl_reply의 bno(자)와 tbl_board의 bno(부)를 연결 (부모가 있어야 자식이 있다) 
 
+delete from tbl_board; -- 더미데이터 삭제
 
+create sequence seq_board;
 
+insert into TBL_BOARD (bno,title,content,writer)
+	values (seq_board.nextval, '댓글용 제목', '댓글용 내용', 'kkw'); -- 11개 삽입
 
+insert into tbl_reply(rno, bno, reply, replyer)
+	values (seq_reply.nextval, 11, '댓글 11', 'kkw');
+insert into tbl_reply(rno, bno, reply, replyer)
+	values (seq_reply.nextval, 10, '댓글 10', 'kkw');
+insert into tbl_reply(rno, bno, reply, replyer)
+	values (seq_reply.nextval, 9, '댓글 9', 'kkw');	
+insert into tbl_reply(rno, bno, reply, replyer)
+	values (seq_reply.nextval, 8, '댓글 8', 'kkw');
+insert into tbl_reply(rno, bno, reply, replyer)
+	values (seq_reply.nextval, 7, '댓글 7', 'kkw');
+insert into tbl_reply(rno, bno, reply, replyer)
+	values (seq_reply.nextval, 6, '댓글 6', 'kkw');
+	
+select * from tbl_reply;
+
+select rno, bno, reply, replyer, replydate, updatedate from tbl_reply where bno = 10 order by rno asc; 
 
 
 
